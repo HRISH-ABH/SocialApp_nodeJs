@@ -2,6 +2,7 @@ import express from "express";
 import { userModel } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 const routes = express.Router();
 
@@ -45,6 +46,37 @@ routes.post("/register", async (req, res) => {
     res.json({
       mssg: error,
     });
+  }
+});
+
+routes.get("/user", async (req, res) => {
+const {token}=req.cookies;
+
+  if (!token) {
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decoded) {
+      const user = await userModel.findOne({ _id: decoded.id }).select('-password');
+      return res
+        .status(200)
+        .json({
+          message: "User details fetched",
+          user,
+        })
+    } else {
+      return res.status(401).json({
+        message: "Invalid or broken token",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.send(error);
   }
 });
 export default routes;
