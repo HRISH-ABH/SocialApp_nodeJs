@@ -102,7 +102,7 @@ const loginController = async (req, res) => {
     res.cookie("token", token);
 
     res.status(200).json({
-      message: "Login successfull!!",
+      message: `Login successfull!! Welcome ${userExists.username} `,
     });
   } catch (error) {
     console.log(error.message);
