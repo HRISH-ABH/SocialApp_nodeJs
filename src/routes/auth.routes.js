@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   loginController,
+  logoutController,
   registerController,
   testController,
   userInfoController,
@@ -19,4 +20,7 @@ routes.get("/user", userInfoController);
 
 // login
 routes.post("/login", loginController);
+
+// logout
+routes.post("/logout",logoutController);
 export default routes;

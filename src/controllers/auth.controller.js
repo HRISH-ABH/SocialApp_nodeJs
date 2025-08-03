@@ -111,4 +111,11 @@ const loginController = async (req, res) => {
     });
   }
 };
-export { registerController, testController, userInfoController ,loginController};
+
+const logoutController = (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({
+    message: "Logout successful!",
+  });
+};
+export { registerController, testController, userInfoController ,loginController,logoutController};
